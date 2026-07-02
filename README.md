@@ -1,4 +1,4 @@
-# react-loading-button
+# loading-button-react
 
 A composable React loading button. The core idea: **button style and loading animation are two independent axes** — mix any variant with any loader.
 
@@ -12,7 +12,7 @@ A composable React loading button. The core idea: **button style and loading ani
 ## Install
 
 ```bash
-npm install react-loading-button
+npm i loading-button-react
 ```
 
 React 17, 18, or 19 (declared as a peer dependency).
@@ -20,7 +20,7 @@ React 17, 18, or 19 (declared as a peer dependency).
 ## Quick start
 
 ```jsx
-import { LoadingButton } from "react-loading-button";
+import { LoadingButton } from "loading-button-react";
 
 // Auto-managed: return a Promise and the button handles the rest,
 // including a success ✓ / error ✕ flash.

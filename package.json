@@ -1,6 +1,6 @@
 {
-  "name": "react-loading-button",
-  "version": "0.1.0",
+  "name": "loading-button-react",
+  "version": "1.0.0",
   "description": "A composable React loading button — mix any button style with any loading animation. Zero runtime dependencies, fully themeable via CSS variables, with auto-managed async loading and success/error states.",
   "keywords": [
     "react",
