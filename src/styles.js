@@ -298,7 +298,7 @@ export const styles = `
 let injected = false;
 
 /** Inject the stylesheet once. Safe to call repeatedly and during SSR. */
-export function injectStyles(): void {
+export function injectStyles() {
   if (injected) return;
   if (typeof document === "undefined") return;
   if (document.getElementById(STYLE_ID)) {
@@ -313,6 +313,6 @@ export function injectStyles(): void {
 }
 
 /** Returns the raw CSS string, e.g. for server-side style extraction. */
-export function getStyles(): string {
+export function getStyles() {
   return styles;
 }

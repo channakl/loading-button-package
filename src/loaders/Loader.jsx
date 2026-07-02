@@ -1,22 +1,19 @@
 import * as React from "react";
-import type { LoaderType } from "../types";
-
-export interface LoaderProps {
-  type: LoaderType;
-  /** px size of the loader box; defaults to inheriting from font size via em. */
-  size?: number | string;
-  className?: string;
-}
 
 /**
  * Renders one of six loading animations. Purely presentational and color-
  * agnostic — it inherits `currentColor`, so the button controls the color.
- * All motion is CSS-driven (see styles.ts) and respects reduced-motion.
+ * All motion is CSS-driven (see styles.js) and respects reduced-motion.
+ *
+ * @param {Object} props
+ * @param {"spinner"|"dots"|"bars"|"pulse"|"ring"|"progress"} props.type
+ * @param {number|string} [props.size] - px size of the loader box; defaults to inheriting from font size via em.
+ * @param {string} [props.className]
  */
-export function Loader({ type, size, className }: LoaderProps) {
+export function Loader({ type, size, className }) {
   const style =
     size != null
-      ? ({ ["--lb-loader-size" as string]: typeof size === "number" ? `${size}px` : size } as React.CSSProperties)
+      ? { "--lb-loader-size": typeof size === "number" ? `${size}px` : size }
       : undefined;
 
   const cls = ["lb-loader", `lb-loader--${type}`, className]

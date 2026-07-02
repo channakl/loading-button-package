@@ -1,32 +1,18 @@
 import * as React from "react";
-import type { ButtonStatus } from "./types";
-
-interface Options {
-  /** Controlled loading value, or undefined for uncontrolled. */
-  controlledLoading?: boolean;
-  /** Whether to auto-manage loading from an async onClick. */
-  autoLoading: boolean;
-  /** Whether to flash success/error after an async action. */
-  showStatus: boolean;
-  /** How long success/error stays visible, in ms. */
-  statusDuration: number;
-  /** The user's click handler. */
-  onClick?: (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => void | Promise<unknown>;
-}
-
-interface Result {
-  status: ButtonStatus;
-  isLoading: boolean;
-  handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
 
 /**
  * Centralizes the two control modes:
  *   1. Controlled — `controlledLoading` is a boolean; we mirror it.
  *   2. Uncontrolled — we watch the onClick return value; if it's a Promise
  *      we flip to "loading" and then to "success"/"error" when it settles.
+ *
+ * @param {Object} options
+ * @param {boolean} [options.controlledLoading] - Controlled loading value, or undefined for uncontrolled.
+ * @param {boolean} options.autoLoading - Whether to auto-manage loading from an async onClick.
+ * @param {boolean} options.showStatus - Whether to flash success/error after an async action.
+ * @param {number} options.statusDuration - How long success/error stays visible, in ms.
+ * @param {Function} [options.onClick] - The user's click handler.
+ * @returns {{ status: string, isLoading: boolean, handleClick: Function }}
  */
 export function useLoadingState({
   controlledLoading,
@@ -34,12 +20,12 @@ export function useLoadingState({
   showStatus,
   statusDuration,
   onClick,
-}: Options): Result {
+}) {
   const isControlled = controlledLoading !== undefined;
 
-  const [internal, setInternal] = React.useState<ButtonStatus>("idle");
+  const [internal, setInternal] = React.useState("idle");
   const mounted = React.useRef(true);
-  const timer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timer = React.useRef(null);
 
   React.useEffect(() => {
     mounted.current = true;
@@ -49,14 +35,14 @@ export function useLoadingState({
     };
   }, []);
 
-  const status: ButtonStatus = isControlled
+  const status = isControlled
     ? controlledLoading
       ? "loading"
       : "idle"
     : internal;
 
   const flash = React.useCallback(
-    (next: "success" | "error") => {
+    (next) => {
       if (!mounted.current) return;
       if (!showStatus) {
         setInternal("idle");
@@ -72,7 +58,7 @@ export function useLoadingState({
   );
 
   const handleClick = React.useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
+    (event) => {
       if (!onClick) return;
 
       // Controlled mode: parent owns loading, just forward the event.
@@ -84,7 +70,7 @@ export function useLoadingState({
       const result = onClick(event);
 
       // Only manage state if the handler actually returned a thenable.
-      if (result && typeof (result as PromiseLike<unknown>).then === "function") {
+      if (result && typeof result.then === "function") {
         if (timer.current) clearTimeout(timer.current);
         setInternal("loading");
         Promise.resolve(result).then(

@@ -1,5 +1,4 @@
 import * as React from "react";
-import type { LoadingButtonProps } from "./types";
 import { Loader } from "./loaders/Loader";
 import { injectStyles } from "./styles";
 import { useLoadingState } from "./useLoadingState";
@@ -7,7 +6,7 @@ import { useLoadingState } from "./useLoadingState";
 // Ensure styles exist as early as the module is used on the client.
 injectStyles();
 
-function StatusGlyph({ status }: { status: "success" | "error" }) {
+function StatusGlyph({ status }) {
   return (
     <svg className="lb-glyph" viewBox="0 0 24 24" aria-hidden="true">
       {status === "success" ? (
@@ -19,10 +18,32 @@ function StatusGlyph({ status }: { status: "success" | "error" }) {
   );
 }
 
-export const LoadingButton = React.forwardRef<
-  HTMLButtonElement,
-  LoadingButtonProps
->(function LoadingButton(
+/**
+ * A composable loading button component.
+ *
+ * @param {Object} props
+ * @param {"solid"|"outline"|"ghost"|"soft"|"link"} [props.variant="solid"]
+ * @param {"primary"|"secondary"|"success"|"danger"|"neutral"} [props.color="primary"]
+ * @param {"sm"|"md"|"lg"} [props.size="md"]
+ * @param {"spinner"|"dots"|"bars"|"pulse"|"ring"|"progress"} [props.loader="spinner"]
+ * @param {"start"|"end"|"center"|"replace"} [props.loaderPosition="start"]
+ * @param {boolean} [props.loading] - Controlled loading state.
+ * @param {boolean} [props.autoLoading=true]
+ * @param {boolean} [props.showStatus=true]
+ * @param {number} [props.statusDuration=1600]
+ * @param {React.ReactNode} [props.loadingText]
+ * @param {React.ReactNode} [props.successText]
+ * @param {React.ReactNode} [props.errorText]
+ * @param {boolean} [props.fullWidth=false]
+ * @param {React.ReactNode} [props.startIcon]
+ * @param {React.ReactNode} [props.endIcon]
+ * @param {Function} [props.onClick]
+ * @param {boolean} [props.disabled]
+ * @param {string} [props.className]
+ * @param {React.ReactNode} [props.children]
+ * @param {React.Ref} ref
+ */
+export const LoadingButton = React.forwardRef(function LoadingButton(
   {
     variant = "solid",
     color = "primary",
@@ -61,7 +82,7 @@ export const LoadingButton = React.forwardRef<
   const showIndicator = status !== "idle";
 
   // Pick the label for the current status.
-  let label: React.ReactNode = children;
+  let label = children;
   if (status === "loading" && loadingText != null) label = loadingText;
   else if (status === "success" && successText != null) label = successText;
   else if (status === "error" && errorText != null) label = errorText;

@@ -19,7 +19,7 @@ React 17, 18, or 19 (declared as a peer dependency).
 
 ## Quick start
 
-```tsx
+```jsx
 import { LoadingButton } from "react-loading-button";
 
 // Auto-managed: return a Promise and the button handles the rest,
@@ -27,7 +27,7 @@ import { LoadingButton } from "react-loading-button";
 <LoadingButton onClick={() => api.save()}>Save changes</LoadingButton>
 ```
 
-```tsx
+```jsx
 // Controlled: you own the loading state.
 <LoadingButton loading={isSubmitting} variant="outline" loader="dots">
   Submit
@@ -38,7 +38,7 @@ import { LoadingButton } from "react-loading-button";
 
 Any `variant` composes with any `loader`:
 
-```tsx
+```jsx
 <LoadingButton variant="solid"   loader="spinner"  loading />
 <LoadingButton variant="outline" loader="dots"     loading />
 <LoadingButton variant="ghost"   loader="bars"     loading />
@@ -89,7 +89,7 @@ Override any token with CSS custom properties — globally or scoped:
 }
 ```
 
-Full token list lives in `src/styles.ts`.
+Full token list lives in `src/styles.js`.
 
 ## Async & status behavior
 
@@ -110,8 +110,7 @@ Styles inject on the client automatically. For server-rendered style extraction,
 
 ```bash
 npm install
-npm run build      # → dist/ (ESM + CJS + types)
-npm run typecheck
+npm run build      # → dist/ (ESM + CJS)
 ```
 
 ## License
